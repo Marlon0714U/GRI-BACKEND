@@ -7,9 +7,6 @@ public class Constantes {
 	public static final int FUZZY_MATCH_LINEAS=90;
 	public static final double LEVENSHTEIN=0.95;
 	
-	
-	public static final String ID_ORCID = "OPEN RESEARCHER AND CONTRIBUTOR ID";
-	
 	/*
 	 * Tipo de Produccion
 	 */

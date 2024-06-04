@@ -139,9 +139,8 @@ public class ExtractorTecnicas {
 		Tipo tipo = new Tipo();
 
 		ArrayList<Produccion> produccionAux = new ArrayList<>();
-		
-		for (int i = 0; i < elem.size(); i++) {
 
+		for (int i = 0; i < elem.size(); i++) {
 
 			if (elem.get(i).contains("PRODUCCIÓN TÉCNICA")) {
 

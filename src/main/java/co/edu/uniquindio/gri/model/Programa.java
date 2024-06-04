@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity(name = "PROGRAMAS")
 @Table(name = "PROGRAMAS", schema = "gri")
@@ -27,18 +27,6 @@ public class Programa implements Serializable {
 	@Column(name = "NOMBRE")
 	private String nombre;
 
-	@Column(name = "INFORMACIONGENERAL", length = 2000)
-	private String informaciongeneral;
-
-	@Column(name = "MISION", length = 2000)
-	private String mision;
-
-	@Column(name = "VISION", length = 2000)
-	private String vision;
-
-	@Column(name = "CONTACTO", length = 450)
-	private String contacto;
-
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FACULTADES_ID")
 	private Facultad facultad;
@@ -49,15 +37,10 @@ public class Programa implements Serializable {
 	public Programa() {
 	}
 
-	public Programa(long id, String nombre, Facultad facultad, String informaciongeneral, String contacto,
-			String vision, String mision) {
+	public Programa(long id, String nombre, Facultad facultad) {
 		this.id = id;
 		this.nombre = nombre;
-		this.informaciongeneral = informaciongeneral;
-		this.contacto = contacto;
 		this.facultad = facultad;
-		this.mision = mision;
-		this.vision = vision;
 	}
 
 	public long getId() {
@@ -74,38 +57,6 @@ public class Programa implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getInformaciongeneral() {
-		return informaciongeneral;
-	}
-
-	public void setInformaciongeneral(String informaciongeneral) {
-		this.informaciongeneral = informaciongeneral;
-	}
-
-	public String getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(String contacto) {
-		this.contacto = contacto;
-	}
-
-	public String getMision() {
-		return mision;
-	}
-
-	public void setMision(String mision) {
-		this.mision = mision;
-	}
-
-	public String getVision() {
-		return vision;
-	}
-
-	public void setVision(String vision) {
-		this.vision = vision;
 	}
 
 	public Facultad getFacultad() {

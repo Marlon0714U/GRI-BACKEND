@@ -23,7 +23,7 @@ public class ProduccionBGrupoDAO {
 	}
 	
 	public void deleteById(Long id){
-		produccionBGrupoRepository.delete(id);
+		produccionBGrupoRepository.deleteById(id);
 	}
 
 }

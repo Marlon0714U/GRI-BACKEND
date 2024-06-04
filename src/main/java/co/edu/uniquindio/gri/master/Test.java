@@ -14,8 +14,8 @@ public class Test{
 	 @Bean
 	    public ThreadPoolTaskExecutor executor1() {
 	        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-	        threadPoolTaskExecutor.setCorePoolSize(5);
-	        threadPoolTaskExecutor.setMaxPoolSize(5);
+	        threadPoolTaskExecutor.setCorePoolSize(10);
+	        threadPoolTaskExecutor.setMaxPoolSize(10);
 	        threadPoolTaskExecutor.initialize();
 	        return threadPoolTaskExecutor;
 	    }
@@ -23,8 +23,8 @@ public class Test{
 	    @Bean
 	    public ThreadPoolTaskExecutor executor2() {
 	        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
-	        threadPoolTaskExecutor.setCorePoolSize(50);
-	        threadPoolTaskExecutor.setMaxPoolSize(50);
+	        threadPoolTaskExecutor.setCorePoolSize(100);
+	        threadPoolTaskExecutor.setMaxPoolSize(100);
 	        threadPoolTaskExecutor.initialize();
 	        return threadPoolTaskExecutor;
 	    }

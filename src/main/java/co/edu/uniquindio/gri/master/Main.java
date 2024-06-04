@@ -33,13 +33,13 @@ public class Main implements CommandLineRunner {
 		long startTime = System.currentTimeMillis();
 		long stopTime = 0;
 		long elapsedTime = 0;
-
+		
 		scrapData();
 
 		stopTime = System.currentTimeMillis();
 		elapsedTime = stopTime - startTime;
 		System.err.println(elapsedTime);
-
+		
 		System.exit(0);
 	}
 
@@ -49,7 +49,7 @@ public class Main implements CommandLineRunner {
 	public List<Grupo> scrapData() throws InterruptedException {
 
 		List<Grupo> gruposInicial = leerDataSet();
-
+		
 		lineasInvestigacionDAO.deleteAll();
 
 		investigadorDAO.deleteAll();
@@ -58,23 +58,21 @@ public class Main implements CommandLineRunner {
 
 		List<Grupo> grupos = new ArrayList<Grupo>();
 		List<Future<Grupo>> resultList = new ArrayList<Future<Grupo>>();
-		for (int i = 0; i <  urlSet.size(); i++) {
-			System.out.println(i);
+
+		for (int i = 0; i < urlSet.size(); i++) {
 			Future<Grupo> result = extractor.scrapData(urlSet.get(i), gruposInicial.get(i));
 			resultList.add(result);
 		}
 
 		for (Future<Grupo> future : resultList) {
-
 			try {
 				grupos.add(future.get());
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}
 		}
-		
 
-		return null;
+		return grupos;
 	}
 
 	public List<Grupo> leerDataSet() {
@@ -94,7 +92,6 @@ public class Main implements CommandLineRunner {
 			String url = "https://scienti.colciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=" + cadena;
 			urlSet.add(url);
 		}
-
 		return urlSet;
 	}
 }

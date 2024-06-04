@@ -15,7 +15,7 @@ public class InvestigadorDAO {
 	InvestigadorRepository investigadorRepository;
 
 	public void save(Investigador investigador) {
-			investigadorRepository.save(investigador);		
+		investigadorRepository.save(investigador);
 	}
 
 	public void deleteAll() {
@@ -23,11 +23,7 @@ public class InvestigadorDAO {
 	}
 	
 	public void saveAll(List<Investigador> investigadores) {
-		investigadorRepository.save(investigadores);
+		investigadorRepository.saveAll(investigadores);
 	}
 	
-	
-	public void eliminarTodosLosInvesigadores() {
-		investigadorRepository.eliminarTodosLosInvesigadores();
-	}
 }

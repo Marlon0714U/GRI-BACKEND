@@ -23,7 +23,7 @@ public class ProduccionBDAO {
 	}
 	
 	public void deleteById(Long id){
-		produccionBRepository.delete(id);
+		produccionBRepository.deleteById(id);
 	}
 
 }

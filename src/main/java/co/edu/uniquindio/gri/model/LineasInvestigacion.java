@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 @Entity(name = "LINEASINVESTIGACION")
 @Table(name = "LINEASINVESTIGACION", schema = "gri")
@@ -21,7 +21,7 @@ public class LineasInvestigacion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private long id;
 
@@ -75,13 +75,5 @@ public class LineasInvestigacion implements Serializable {
 	public void setInvestigadores(List<Investigador> investigadores) {
 		this.investigadores = investigadores;
 	}
-
-	@Override
-	public String toString() {
-		return "LineasInvestigacion [id=" + id + ", nombre=" + nombre + ", investigadores=" + investigadores
-				+ ", grupos=" + grupos + "]";
-	}
-	
-	
 
 }

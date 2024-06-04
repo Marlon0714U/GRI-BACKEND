@@ -4,15 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 
 @Entity(name = "CENTROS")
@@ -27,12 +27,6 @@ public class Centro implements Serializable {
 
 	@Column(name = "NOMBRE")
 	private String nombre;
-	
-	@Column(name="INFORMACIONGENERAL", length = 2000)
-	private String informaciongeneral;
-	
-	@Column(name="CONTACTO", length = 450)
-	private String contacto;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FACULTADES_ID")
@@ -44,11 +38,9 @@ public class Centro implements Serializable {
 	public Centro() {
 	}
 
-	public Centro(long id, String nombre, Facultad facultad,String informaciongeneral,String contacto) {
+	public Centro(long id, String nombre, Facultad facultad) {
 		this.id = id;
 		this.nombre = nombre;
-		this.informaciongeneral=informaciongeneral;
-		this.contacto=contacto;
 		this.facultad = facultad;
 	}
 
@@ -66,26 +58,6 @@ public class Centro implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	
-	
-	public String getInformaciongeneral() {
-		return informaciongeneral;
-	}
-
-	public void setInformaciongeneral(String informaciongeneral) {
-		this.informaciongeneral = informaciongeneral;
-	}
-	
-	
-
-	public String getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(String contacto) {
-		this.contacto = contacto;
 	}
 
 	public Facultad getFacultad() {

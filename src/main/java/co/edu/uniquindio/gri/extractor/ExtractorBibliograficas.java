@@ -176,7 +176,8 @@ public class ExtractorBibliograficas {
 	 * Metodo que extrae los capitulos de libro que publico el grupo de
 	 * investigacion
 	 * 
-	 * @param elem, Lista de elementos que contiene los capitulos de libro
+	 * @param elem,
+	 *            Lista de elementos que contiene los capitulos de libro
 	 * @return Lista de Producciones bibliograficas
 	 */
 	public void extraerCapLibrosG(ArrayList<String> elem, Grupo grupo) {
@@ -597,7 +598,7 @@ public class ExtractorBibliograficas {
 	/*
 	 * Metodos que extraen informacion de los investigadores
 	 */
-
+	
 	public void extraerArticulosI(ArrayList<String> elem, Investigador investigador) {
 		String autores = "";
 		String referencia = "";
@@ -676,7 +677,6 @@ public class ExtractorBibliograficas {
 	}
 
 	public void extraerLibrosI(ArrayList<String> elem, Investigador investigador) {
-
 		String autores = "";
 		String referencia = "";
 		String anio = "";
@@ -688,7 +688,7 @@ public class ExtractorBibliograficas {
 
 		ArrayList<ProduccionB> prodBibliograficaAux = new ArrayList<>();
 		for (int i = 0; i < elem.size(); i++) {
-			if (elem.get(i).contains("PRODUCCIÓN BIBLIOGRÁFICA") && elem.get(i + 1).length() > 20) {
+			if (elem.get(i).contains("PRODUCCIÓN BIBLIOGRÁFICA")) {
 				ProduccionB produccionBibliografica = new ProduccionB();
 				if (elem.get(i).contains("LIBRO RESULTADO DE INVESTIGACIÓN")) {
 
@@ -700,7 +700,6 @@ public class ExtractorBibliograficas {
 
 				}
 				// Autores
-
 				String general = elem.get(i + 1);
 				int inicio = general.indexOf("\"");
 				autores = general.substring(0, inicio - 2);
@@ -721,6 +720,7 @@ public class ExtractorBibliograficas {
 					cont++;
 				}
 				referencia = referencia.trim();
+
 				anio = utils.extraerAnio(referencia);
 
 				produccionBibliografica.setReferencia(referencia);
@@ -742,7 +742,6 @@ public class ExtractorBibliograficas {
 			Bibliografica.addAll(prodBibliograficaAux);
 			investigador.setProduccionesBibliograficas(Bibliografica);
 		}
-
 	}
 
 	public void extraerCapLibrosI(ArrayList<String> elem, Investigador investigador) {
@@ -979,10 +978,10 @@ public class ExtractorBibliograficas {
 
 	@Autowired
 	FuzzyMatch fuzzyMatch;
-
+	
 	public List<ProduccionBGrupo> validarProducciones(List<ProduccionBGrupo> prodBibliograficaTemp,
 			List<ProduccionBGrupo> prodBibliograficaTipo, List<ProduccionBGrupo> prodBibliografica) {
-
+		
 		for (ProduccionBGrupo produccionTemp : prodBibliograficaTemp) {
 			boolean existe = false;
 			for (ProduccionBGrupo produccionTipo : prodBibliograficaTipo) {
@@ -1005,6 +1004,7 @@ public class ExtractorBibliograficas {
 		return prodBibliografica;
 	}
 
+	
 	public List<ProduccionBGrupo> eliminarProducciones(List<ProduccionBGrupo> prodBibliograficaTemp,
 			List<ProduccionBGrupo> prodBibliograficaTipo, List<ProduccionBGrupo> prodBibliografica) {
 		FuzzyMatch fuzzyMatch = new FuzzyMatch();
