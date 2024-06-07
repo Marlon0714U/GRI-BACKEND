@@ -50,10 +50,11 @@ public class Main implements CommandLineRunner {
 
 		List<Grupo> gruposInicial = leerDataSet();
 		
-		lineasInvestigacionDAO.deleteAll();
+		//lineasInvestigacionDAO.deleteAll();
 
-		investigadorDAO.deleteAll();
+		//investigadorDAO.deleteAll();
 
+	//	List<Grupo> gruposInicial = null;
 		List<String> urlSet = llenarUrlSet(gruposInicial);
 
 		List<Grupo> grupos = new ArrayList<Grupo>();
@@ -76,6 +77,8 @@ public class Main implements CommandLineRunner {
 	}
 
 	public List<Grupo> leerDataSet() {
+
+
 		return grupoDAO.findAll();
 	}
 
@@ -86,11 +89,15 @@ public class Main implements CommandLineRunner {
 	public List<String> llenarUrlSet(List<Grupo> grupos) {
 
 		List<String> urlSet = new ArrayList<String>();
+
 		for (int i = 0; i < grupos.size(); i++) {
 			String cadena = "00000000000000" + grupos.get(i).getId();
 			cadena = cadena.substring(cadena.length() - Constantes.LINK_GRUPLAC, cadena.length());
-			String url = "https://scienti.colciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=" + cadena;
+			String url = "https://scienti.minciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=" + cadena;
 			urlSet.add(url);
+		}
+		for(String url : urlSet){
+			System.out.println(url);
 		}
 		return urlSet;
 	}

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,9 @@ public class ExtractorApSocial {
 	@Autowired
 	ArrayUtils utils;
 
+	private static final Logger logger = LoggerFactory.getLogger(ExtractorApSocial.class);
+
+
 	/**
 	 * 
 	 * @param elem
@@ -37,6 +42,8 @@ public class ExtractorApSocial {
 		ArrayList<ProduccionGrupo> actAprSocialAux = new ArrayList<>();
 
 		for (int i = 0; i < elem.size(); i++) {
+			logger.debug("Processing element: {}", elem.get(i));
+
 
 			ProduccionGrupo apropiacionSocial = new ProduccionGrupo();
 
@@ -45,15 +52,21 @@ public class ExtractorApSocial {
 				referencia = "";
 				while (cont < elem.size() && !elem.get(cont).contains(".-")) {
 					String actual = elem.get(cont);
+					logger.debug("Appending to reference: {}", actual);
+
 					referencia += " " + actual;
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+						logger.debug("Extracted authors: {}", autores);
+
 					}
 					cont++;
 				}
 				referencia = referencia.substring(3, referencia.length() - 1);
 				anio = utils.extraerAnio(referencia);
+				logger.debug("Extracted year: {}", anio);
+
 
 				apropiacionSocial.setAnio(anio);
 				apropiacionSocial.setAutores(autores);
@@ -70,6 +83,8 @@ public class ExtractorApSocial {
 		List<ProduccionGrupo> produccion = utils.verificarProducciones(Constantes.ID_EDICION,
 				grupo.getProduccion(), actAprSocialAux);
 		grupo.setProduccion(produccion);
+		logger.debug("Updated group's production: {}", grupo.getProduccion());
+
 	}
 
 	/**

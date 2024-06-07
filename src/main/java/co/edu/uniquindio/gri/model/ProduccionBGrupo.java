@@ -49,6 +49,11 @@ public class ProduccionBGrupo implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TIPO_ID")
 	private Tipo tipo;
+
+	/** The revista. */
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "REVISTA_ID")
+	private Revista revista;
 	
 	@Transient
 	public boolean debeEliminarse;
