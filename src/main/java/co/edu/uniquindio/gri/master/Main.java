@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import co.edu.uniquindio.gri.model.Investigador;
+import co.edu.uniquindio.gri.model.Produccion;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -27,6 +31,10 @@ public class Main implements CommandLineRunner {
 	@Autowired
 	LineasInvestigacionDAO lineasInvestigacionDAO;
 
+
+	@PersistenceContext
+	private EntityManager entityManager;
+
 	@Override
 	public void run(String... arg0) throws Exception {
 
@@ -36,10 +44,13 @@ public class Main implements CommandLineRunner {
 		
 		scrapData();
 
+
+
 		stopTime = System.currentTimeMillis();
 		elapsedTime = stopTime - startTime;
 		System.err.println(elapsedTime);
-		
+
+
 		System.exit(0);
 	}
 
@@ -54,7 +65,6 @@ public class Main implements CommandLineRunner {
 
 		//investigadorDAO.deleteAll();
 
-	//	List<Grupo> gruposInicial = null;
 		List<String> urlSet = llenarUrlSet(gruposInicial);
 
 		List<Grupo> grupos = new ArrayList<Grupo>();
@@ -65,25 +75,33 @@ public class Main implements CommandLineRunner {
 			resultList.add(result);
 		}
 
+
+
 		for (Future<Grupo> future : resultList) {
 			try {
 				grupos.add(future.get());
+
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}
 		}
+
+
 
 		return grupos;
 	}
 
 	public List<Grupo> leerDataSet() {
 
+		entityManager.clear();
 
 		return grupoDAO.findAll();
 	}
 
 	public Grupo leerDataSetPruebas(Long id) {
-		return grupoDAO.findOne(id);
+		Grupo grupo = grupoDAO.findOne(id);
+		entityManager.refresh(grupo); // Recarga la entidad desde la base de datos
+		return grupo;
 	}
 
 	public List<String> llenarUrlSet(List<Grupo> grupos) {
@@ -94,10 +112,11 @@ public class Main implements CommandLineRunner {
 			String cadena = "00000000000000" + grupos.get(i).getId();
 			cadena = cadena.substring(cadena.length() - Constantes.LINK_GRUPLAC, cadena.length());
 			String url = "https://scienti.minciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=" + cadena;
+			//System.out.println(i);
 			urlSet.add(url);
 		}
 		for(String url : urlSet){
-			System.out.println(url);
+		//	System.out.println(url);
 		}
 		return urlSet;
 	}

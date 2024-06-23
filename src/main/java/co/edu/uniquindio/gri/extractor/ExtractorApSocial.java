@@ -420,7 +420,9 @@ public class ExtractorApSocial {
 						&& !elem.get(cont).contains("INSTITUCIONES ASOCIADAS")
 						&& !elem.get(cont).contains("NOMBRE DE LA INSTITUCIÓN:")
 						&& !elem.get(cont).contains("TIPO DE VINCULACIÓN")) {
+
 					String actual = elem.get(cont);
+				//	System.out.println("extrayendo evento actual: " + actual);
 					referencia += " " + actual;
 
 					if (actual.contains("AUTORES:")) {
@@ -508,6 +510,7 @@ public class ExtractorApSocial {
 
 		for (int i = 0; i < elem.size(); i++) {
 
+
 			Produccion actAprSocial = new Produccion();
 
 			if (elem.get(i).contains("NOMBRE DEL EVENTO:")) {
@@ -520,6 +523,7 @@ public class ExtractorApSocial {
 						&& !elem.get(cont).contains("TIPO DE PRODUCTO:")
 						&& !elem.get(cont).contains("INSTITUCIONES ASOCIADAS")
 						&& !elem.get(cont).contains("PARTICIPANTES") && !StringUtils.isNumeric(elem.get(cont))) {
+
 					String actual = elem.get(cont);
 					referencia += " " + actual;
 					cont++;
@@ -551,6 +555,7 @@ public class ExtractorApSocial {
 				actAprSocial.setRepetido("NO");
 				utils.identificarRepetidosI(actAprSocialAux, actAprSocial);
 				actAprSocialAux.add(actAprSocial);
+
 			}
 
 		}
@@ -562,6 +567,13 @@ public class ExtractorApSocial {
 			aprSocial.addAll(actAprSocialAux);
 			investigador.setProducciones(aprSocial);
 		}
+
+		for (int i = 0; i < actAprSocialAux.size(); i++) {
+			Produccion produccion = actAprSocialAux.get(i);
+		}
+
+
+
 	}
 
 	public void extraerRedesDeConocimientoI(ArrayList<String> elem, Investigador investigador) {

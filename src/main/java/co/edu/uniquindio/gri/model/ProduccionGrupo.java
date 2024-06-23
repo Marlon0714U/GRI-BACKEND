@@ -12,9 +12,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.ToString;
+import org.apache.commons.lang3.builder.ToStringExclude;
 
 @Entity(name = "PRODUCCIONESG")
 @Table(name = "PRODUCCIONESG", schema = "gri")
+@ToString(exclude = {"grupo", "debeEliminarse", "inventario", "referencia"})
 public class ProduccionGrupo implements Serializable {
 
 	private static final long serialVersionUID = 1L;

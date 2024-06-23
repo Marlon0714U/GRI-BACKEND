@@ -70,6 +70,7 @@ public class ExtractorGenerales {
 				String nomLinea = elem.get(i).substring(elem.get(i).indexOf(".- ") + 3);
 				nomLinea = StringUtils.stripAccents(nomLinea);
 				nomLinea = nomLinea.trim();
+			//	System.out.println("extraerLinea inv: "+nomLinea);
 
 				LineasInvestigacion lineaInvestigacion = new LineasInvestigacion();
 				int pos=utils.BuscarLineasRepetidas(nomLinea);
@@ -106,20 +107,26 @@ public class ExtractorGenerales {
 	public void extraerIntegrantes(ArrayList<String> elem, Grupo grupo)
 			throws InterruptedException, ExecutionException {
 
+		System.out.println("metodo extraerIntegrantes en lista y por cada uno extraer informacion de investigador");
 		String link = "";
 
 		for (int i = 0; i < elem.size(); i++) {
 			if (elem.get(i).contains(".-")) {
-				link = elem.get(i + 1);
-				Future<Investigador> auxInvestigador;
-				if (elem.get(i + 3).contains("Actual") || elem.get(i + 4).contains("Actual")
+					link = elem.get(i + 1);
+				System.out.println("link DESPUES: "+elem.get(i+1));
+					Future<Investigador> auxInvestigador;
+					if (elem.get(i + 3).contains("Actual") || elem.get(i + 4).contains("Actual")
 						|| elem.get(i + 5).contains("Actual")) {
-					auxInvestigador = investigadorController.extraer("ACTUAL", link);
-					grupo.addInvestigador(auxInvestigador.get(), "ACTUAL");
-				} else {
+
+						auxInvestigador = investigadorController.extraer("ACTUAL", link);
+						//ERROR AQUI
+						grupo.addInvestigador(auxInvestigador.get(), "ACTUAL");
+
+					} else {
 					auxInvestigador = investigadorController.extraer("NO ACTUAL", link);
 					grupo.addInvestigador(auxInvestigador.get(), "NO ACTUAL");
-				}
+					}
+
 			}
 		}
 	}

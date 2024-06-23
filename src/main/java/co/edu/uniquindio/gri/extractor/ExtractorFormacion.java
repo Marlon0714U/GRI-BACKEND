@@ -24,7 +24,7 @@ public class ExtractorFormacion {
 	/**
 	 * 
 	 * @param elem
-	 * @param bandera
+	 * @param grupo
 	 * @return
 	 */
 	public void extraerCursosCortosG(ArrayList<String> elem, Grupo grupo) {
@@ -37,7 +37,6 @@ public class ExtractorFormacion {
 		ArrayList<ProduccionGrupo> actFormacionAux = new ArrayList<>();
 
 		for (int i = 0; i < elem.size(); i++) {
-
 			ProduccionGrupo actividadesFormacion = new ProduccionGrupo();
 
 			if (elem.get(i).contains(".-")) {

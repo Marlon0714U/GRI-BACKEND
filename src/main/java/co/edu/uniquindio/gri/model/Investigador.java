@@ -15,11 +15,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
+import lombok.ToString;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity(name = "INVESTIGADORES")
 @Table(name = "INVESTIGADORES", schema = "gri")
+@ToString(exclude = {"pertenencia","idiomas","lineasInvestigacion", "producciones", "produccionesBibliograficas", "grupos"})
 public class Investigador implements Serializable {
 
 	private static final long serialVersionUID = 1L;

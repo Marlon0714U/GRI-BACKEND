@@ -2,16 +2,7 @@ package co.edu.uniquindio.gri.model;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 @Entity(name = "PRODUCCIONES")
 @Table(name = "PRODUCCIONES", schema = "gri")

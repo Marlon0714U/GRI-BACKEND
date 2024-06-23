@@ -67,7 +67,7 @@ public class Grupo implements Serializable {
 			@JoinColumn(name = "PROGRAMAS_ID") }, schema = "gri")
 	private List<Programa> programas = new ArrayList<Programa>();
 
-	@OneToMany(mappedBy = "grupos"/*, fetch= FetchType.EAGER*/)
+	@OneToMany(mappedBy = "grupos", fetch= FetchType.EAGER)
 	private List<GruposInves> investigadores = new ArrayList<GruposInves>();
 
 	public Grupo(long id, String nombre, String areaConocimiento, String anioFundacion, String lider, String categoria,

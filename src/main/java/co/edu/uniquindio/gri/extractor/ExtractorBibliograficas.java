@@ -3,6 +3,7 @@ package co.edu.uniquindio.gri.extractor;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.servlet.ServletOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -144,7 +145,7 @@ public class ExtractorBibliograficas {
 
 						}
 						isbn = elem.get(i).substring(posI, posF);
-						int posAux = elem.get(i).indexOf(',') + 1;
+						int posAux = elem.get(i).indexOf(',') + 2;
 						anio = elem.get(i).substring(posAux, posAux + 4);
 						break;
 					}
@@ -381,6 +382,7 @@ public class ExtractorBibliograficas {
 				produccionBibliografica.setRepetido("NO");
 				utils.identificarRepetidosBibliograficosG(prodBibliograficaTemp, produccionBibliografica);
 				prodBibliograficaTemp.add(produccionBibliografica);
+
 			}
 		}
 
@@ -676,6 +678,7 @@ public class ExtractorBibliograficas {
 		}
 	}
 
+
 	public void extraerLibrosI(ArrayList<String> elem, Investigador investigador) {
 		String autores = "";
 		String referencia = "";
@@ -691,18 +694,36 @@ public class ExtractorBibliograficas {
 			if (elem.get(i).contains("PRODUCCIÓN BIBLIOGRÁFICA")) {
 				ProduccionB produccionBibliografica = new ProduccionB();
 				if (elem.get(i).contains("LIBRO RESULTADO DE INVESTIGACIÓN")) {
-
 					tipo = new Tipo(Constantes.ID_LIBRO, Constantes.LIBRO, tipoProduccion);
-
 				} else {
-
 					tipo = new Tipo(Constantes.ID_OTRO_LIBRO, Constantes.OTRO_LIBRO, tipoProduccion);
-
 				}
-				// Autores
+				if (elem.get(i).contains("LIBROS DE DIVULGACIÓN Y/O COMPILACIÓN DE DIVULGACIÓN")) {
+					tipo = new Tipo(Constantes.ID_OTRA_PUBLICACION_DIVULGATIVA, Constantes.OTRA_PUBLICACION_DIVULGATIVA, tipoProduccion);
+				}
+
 				String general = elem.get(i + 1);
-				int inicio = general.indexOf("\"");
-				autores = general.substring(0, inicio - 2);
+
+				if (general.contains("Nombre del libro:")) {
+					int tituloInicio = general.indexOf("Nombre del libro:") + "Nombre del libro:".length();
+					int tituloFin = general.indexOf(",", tituloInicio);
+					String titulo = general.substring(tituloInicio, tituloFin).trim();
+					referencia = "Nombre del libro: " + titulo;
+					autores = "";
+				} else {
+					int inicio = general.indexOf("\"");
+					int fin = general.lastIndexOf("\"");
+					if (inicio != -1 && fin != -1 && inicio < fin) {
+						String titulo = general.substring(inicio + 1, fin).trim();
+						referencia = "Título: " + titulo;
+						autores = general.substring(0, inicio - 2).trim();
+					} else {
+						referencia = general;
+						autores = "";
+					}
+				}
+
+
 				int cont = i + 1;
 				referencia = "";
 				while (cont < elem.size() && !elem.get(cont).contains("PRODUCCIÓN BIBLIOGRÁFICA")
@@ -743,6 +764,7 @@ public class ExtractorBibliograficas {
 			investigador.setProduccionesBibliograficas(Bibliografica);
 		}
 	}
+
 
 	public void extraerCapLibrosI(ArrayList<String> elem, Investigador investigador) {
 		String autores = "";

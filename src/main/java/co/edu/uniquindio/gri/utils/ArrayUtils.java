@@ -451,6 +451,7 @@ public class ArrayUtils {
 	}
 
 	public ArrayList<Investigador> getInvestigadores() {
+
 		return investigadores;
 	}
 
