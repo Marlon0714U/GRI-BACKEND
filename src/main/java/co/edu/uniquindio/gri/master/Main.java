@@ -1,6 +1,7 @@
 package co.edu.uniquindio.gri.master;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -44,12 +45,9 @@ public class Main implements CommandLineRunner {
 		
 		scrapData();
 
-
-
 		stopTime = System.currentTimeMillis();
 		elapsedTime = stopTime - startTime;
 		System.err.println(elapsedTime);
-
 
 		System.exit(0);
 	}
@@ -71,22 +69,19 @@ public class Main implements CommandLineRunner {
 		List<Future<Grupo>> resultList = new ArrayList<Future<Grupo>>();
 
 		for (int i = 0; i < urlSet.size(); i++) {
+			System.out.println("Procesando grupo " + i);
 			Future<Grupo> result = extractor.scrapData(urlSet.get(i), gruposInicial.get(i));
+			System.out.println("Grupo " + i + " procesado");
 			resultList.add(result);
 		}
-
-
 
 		for (Future<Grupo> future : resultList) {
 			try {
 				grupos.add(future.get());
-
 			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}
 		}
-
-
 
 		return grupos;
 	}
@@ -113,10 +108,12 @@ public class Main implements CommandLineRunner {
 			cadena = cadena.substring(cadena.length() - Constantes.LINK_GRUPLAC, cadena.length());
 			String url = "https://scienti.minciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=" + cadena;
 			//System.out.println(i);
-			urlSet.add(url);
+			//urlSet.add(url);
 		}
+		List<String> grupoP = Arrays.asList("https://scienti.minciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=00000000013154");
+		urlSet.add(grupoP.get(0));
 		for(String url : urlSet){
-		//	System.out.println(url);
+			System.out.println(url);
 		}
 		return urlSet;
 	}

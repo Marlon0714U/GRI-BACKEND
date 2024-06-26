@@ -33,6 +33,7 @@ public class InvestigadorController {
 	public Future<Investigador> extraer(String estado, String url) {
 
 		Investigador investigador = new Investigador();
+
 		int statusConnectionCode = util.getStatusConnectionCode(url);
 
 		if (statusConnectionCode == 200) {
@@ -43,6 +44,8 @@ public class InvestigadorController {
 			Document document = util.getHtmlDocument(url);
 			Elements entradas = document.select("tbody>tr>td>table>tbody");
 
+			System.out.println(url);
+			//System.out.println(entradas);
 			investigador = extraerDatos(entradas, estado, id, investigador);
 
 		} else {
@@ -106,9 +109,10 @@ public class InvestigadorController {
 
 				}
 			}
-			investigador = extractor.extraerDatosGeneralesI(investigador, elemInfoPersonal, id, estado);
-			for (Element elem : entradas) {
 
+			investigador = extractor.extraerDatosGeneralesI(investigador, elemInfoPersonal, id, estado);
+
+			for (Element elem : entradas) {
 
 				/*
 				 * Extraer idiomas de los investigadores

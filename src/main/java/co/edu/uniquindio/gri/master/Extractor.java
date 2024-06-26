@@ -1,12 +1,15 @@
 package co.edu.uniquindio.gri.master;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -60,23 +63,30 @@ public class Extractor {
 			// Selecciona solo los atributos span que lleven el nombre celdaEncabezado
 			Elements entradaNombre = document.select("span.celdaEncabezado");
 
+			System.out.println(url);
+
+			//System.out.println(entradas);
+			//System.out.println(entradaNombre);
+
 			// Extraer Nombre del Grupo de Investigación
 			for (Element elem : entradaNombre) {
 				if (elem.toString().contains("span class")) {
 					grupo.setNombre(elem.text().toUpperCase());
 				}
 			}
-
+			System.out.println("Antes de extraer datos");
 			extraerDatos(entradas, grupo);
-
+			System.out.println("Despues de extraer datos");
 			List<GruposInves> gruposInves = grupo.getInvestigadores();
+//            for (GruposInves gruposInve : gruposInves) {
+//                System.out.println("Investigador: " + gruposInve.getInvestigador().getNombre());
+//            }
 			ArrayList<Investigador> investigadores = utils.getInvestigadores();
+			System.out.println("Va a guardar los investigadores " + gruposInves.size());
 			boolean repetido = false;
 
 			for (int i = 0; i < gruposInves.size(); i++) {
-
 				for (int j = 0; j < investigadores.size(); j++) {
-
 					if (gruposInves.get(i).getInvestigador().getId() == investigadores.get(j).getId()) {
 						invesRepetido(gruposInves.get(i).getInvestigador(), gruposInves.get(i).getEstado());
 						repetido = true;
@@ -85,12 +95,15 @@ public class Extractor {
 				}
 
 				if (!repetido) {
+					System.out.println("!repetido");
 					investigadores.add(gruposInves.get(i).getInvestigador());
 				}
+				System.out.println("Se va a guardar el investigador: " + gruposInves.get(i).getInvestigador().getNombre());
 				investigadorDAO.save(gruposInves.get(i).getInvestigador());
+				System.out.println("Investigador guardado");
 			}
 
-			
+			System.out.println("Investigadores: " + investigadores.size());
 
 			//////////////////////////////////////////////////////
 
@@ -99,8 +112,9 @@ public class Extractor {
 			// }
 
 			//////////////////////////////////////////////////////
-
+			System.out.println("Se va a guardar el grupo: " + grupo.getNombre());
 			grupoDAO.save(grupo);
+			System.out.println("Grupo: " + grupo.getNombre() + " guardado");
 			System.err.println((grupo.getNombre()));
 
 		} else {
@@ -144,14 +158,12 @@ public class Extractor {
 			if (elem.text().startsWith("Datos básicos")) {
 				ArrayList<String> elemDatos = utils.ordenarArreglo(elem.toString());
 				elemInfoGeneral.addAll(elemDatos);
-
 			}
 		}
 
 		grupo = extractor.extraerDatosGeneralesG(grupo, elemInfoGeneral);
 
 		for (Element elem : entradas) {
-			
 			 if (elem.text().startsWith("Líneas de investigación declaradas por el grupo")) {
 			 ArrayList<String> elemLineas = utils.ordenarArreglo(elem.toString());
 			 extractor.extraerLineasInvestigacionG(elemLineas, grupo);
@@ -448,28 +460,46 @@ public class Extractor {
 			 /*
 			 * Extraer Producciones en Arte
 			 */
-			
-			 else if (elem.text().startsWith("Obras o productos")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerObrasG(elemDemasTrabajos, grupo);
-			
-			 } else if (elem.text().startsWith("Registros de acuerdo de licencia")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerRegistrosAcuerdoG(elemDemasTrabajos, grupo);
-			
-			 } else if (elem.text().startsWith("Industrias Creativas y culturales")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerIndustriasG(elemDemasTrabajos, grupo);
-			
-			 } else if (elem.text().startsWith("Eventos artísticos")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerEventoArtisticoG(elemDemasTrabajos, grupo);
-			
-			 } else if (elem.text().startsWith("Talleres Creativos")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerTallerCreativoG(elemDemasTrabajos, grupo);
-			
+
+			 else if (elem.text().startsWith("Producción en arte, arquitectura y diseño")) {
+
+				 Elements celdas = elem.select("tr");
+				 Element seccion = new Element(Tag.valueOf("div"), "");
+
+				 for (Element celda : celdas) {
+					 if (!(celda.select("td.celdaEncabezado").text()).isEmpty()) {
+
+						 if (seccion.text().startsWith("Obras o productos")) {
+							 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(seccion.toString());
+							 extractorArte.extraerObrasG(elemDemasTrabajos, grupo);
+
+						 } else if (seccion.text().startsWith("Registros de acuerdo de licencia")) {
+							 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(seccion.toString());
+							 extractorArte.extraerRegistrosAcuerdoG(elemDemasTrabajos, grupo);
+
+
+						 } else if (seccion.text().startsWith("Industrias creativas y culturales")) {
+							 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(seccion.toString());
+							 extractorArte.extraerIndustriasG(elemDemasTrabajos, grupo);
+
+
+						 } else if (seccion.text().startsWith("Eventos Artísticos")) {
+							 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(seccion.toString());
+							 extractorArte.extraerEventoArtisticoG(elemDemasTrabajos, grupo);
+
+
+						 } else if (seccion.text().startsWith("Talleres de Creación")) {
+							 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(seccion.toString());
+							 extractorArte.extraerTallerCreativoG(elemDemasTrabajos, grupo);
+
+						 }
+						 seccion = new Element(Tag.valueOf("div"), "");
+					 }
+					 seccion.append(celda.outerHtml());
+				 }
+
 			 }
+
 		}
 	}
 	
