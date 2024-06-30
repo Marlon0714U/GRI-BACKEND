@@ -137,7 +137,14 @@ public class ProduccionB implements Serializable {
 	public void setDebeEliminarse(boolean debeEliminarse) {
 		this.debeEliminarse = debeEliminarse;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ProduccionB [id=" + id + ", identificador=" + identificador + ", autores=" + autores + ", anio=" + anio
+				+ ", referencia=" + referencia + ", repetido=" + repetido + ", tipo=" + tipo + ", investigador="
+				+ investigador + ", debeEliminarse=" + debeEliminarse + "]";
+	}
+
 	
 
 }

@@ -17,7 +17,7 @@ import org.apache.commons.lang3.builder.ToStringExclude;
 
 @Entity(name = "PRODUCCIONESG")
 @Table(name = "PRODUCCIONESG", schema = "gri")
-@ToString(exclude = {"grupo", "debeEliminarse", "inventario", "referencia"})
+@ToString(exclude = {"grupo", "debeEliminarse"})
 public class ProduccionGrupo implements Serializable {
 
 	private static final long serialVersionUID = 1L;

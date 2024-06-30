@@ -450,6 +450,57 @@ public class ArrayUtils {
 		return producciones;
 	}
 
+
+	public ArrayList<String> organizarReconocimiento(String reconocimiento) {
+
+		ArrayList<String> auxReconocimiento = new ArrayList<String>();
+
+		String anio = "";
+		String entidad = "";
+		String reconocimientoCad = "";
+		int limite = reconocimiento.length();
+
+		for (int i = reconocimiento.length() - 1; i >= 0; i--) {
+
+			if (reconocimiento.charAt(i) == '-') {
+
+				anio = reconocimiento.substring(i + 1, limite);
+				limite = i;
+			}
+			if (reconocimiento.charAt(i) == ',') {
+				entidad = reconocimiento.substring(i + 1, limite);
+				limite = i;
+				reconocimientoCad = reconocimiento.substring(0, limite);
+
+				i = -1;
+			}
+
+		}
+
+		auxReconocimiento.add(seleccionAnio(anio.trim()));
+		auxReconocimiento.add(entidad.trim());
+		auxReconocimiento.add(reconocimientoCad.trim());
+
+		return auxReconocimiento;
+
+	}
+
+	public String seleccionAnio(String cadena) {
+
+		String anio = "N/D";
+		for (int i = 0; i < cadena.length(); i++) {
+
+			if (cadena.charAt(i) >= 48 && cadena.charAt(i) <= 57) {
+				anio = cadena.substring(i, cadena.length());
+				break;
+			}
+
+		}
+		return anio;
+
+	}
+
+
 	public ArrayList<Investigador> getInvestigadores() {
 
 		return investigadores;

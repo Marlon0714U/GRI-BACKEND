@@ -70,5 +70,11 @@ public class GruposInves implements Serializable {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "GruposInves [id=" + id + ", grupos=" + grupos + ", investigadores=" + investigadores + ", estado="
+				+ estado + "]";
+	}
+
 }

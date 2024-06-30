@@ -104,11 +104,21 @@ public class InvestigadorController {
 					ArrayList<String> elemLineas = utils.ordenarArreglo(elem.toString());
 					extractor.extraerLineasInvestigacionI(elemLineas, investigador);
 
+				} else if (elem.text().contains("Sexo")) {
+					ArrayList<String> elemDatos = utils.ordenarArreglo(elem.toString());
+					elemInfoPersonal.addAll(elemDatos);
 				}
 			}
 			investigador = extractor.extraerDatosGeneralesI(investigador, elemInfoPersonal, id, estado);
 			for (Element elem : entradas) {
 
+				/*
+				 * Extraer la información de orcid
+				 */
+				if(elem.text().startsWith("Identificadores de autor")) {
+					ArrayList<String> orcid = utils.ordenarArreglo(elem.toString());
+					extractor.extraerIdOrcid(orcid, investigador);
+				}
 
 				/*
 				 * Extraer idiomas de los investigadores
@@ -117,6 +127,12 @@ public class InvestigadorController {
 				if (elem.text().startsWith("Idiomas")) {
 					ArrayList<String> elemIdiomas = utils.ordenarArreglo(elem.toString());
 					extractor.extraerIdiomas(elemIdiomas, investigador);
+				}
+
+				else if (elem.text().startsWith("Reconocimientos")) {
+					ArrayList<String> reconocimientosInvestigadors = utils.ordenarArreglo(elem.toString());
+					extractor.extraerReconocimientos(reconocimientosInvestigadors, investigador);
+
 				}
 
 				/*
@@ -144,8 +160,7 @@ public class InvestigadorController {
 					ArrayList<String> elemParticipacionComite = utils.ordenarArreglo(elem.toString());
 					extractorEvaluacion.extraerPartipacionComitesI(elemParticipacionComite, investigador);
 
-				} else if (elem.text().contains("Par evaluador")
-						&& elem.text().contains("Ámbito:")) {
+				} else if (elem.text().contains("Par evaluador") && elem.text().contains("Ámbito:")) {
 					ArrayList<String> elemParEvaluador = utils.ordenarArreglo(elem.toString());
 					extractorEvaluacion.extraerParEvaluadorI(elemParEvaluador, investigador);			
 					
@@ -317,6 +332,10 @@ public class InvestigadorController {
 				}
 
 				if (elem.text().contains("Experiencia profesional")) {
+					ArrayList<String> elemDatos = utils.ordenarArreglo(elem.toString());
+					elemInfoPersonal.addAll(elemDatos);
+				}
+				if (elem.text().contains("Sexo")) {
 					ArrayList<String> elemDatos = utils.ordenarArreglo(elem.toString());
 					elemInfoPersonal.addAll(elemDatos);
 				}

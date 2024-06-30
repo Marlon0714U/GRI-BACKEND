@@ -377,7 +377,7 @@ public class ExtractorApSocial {
 
 				apropiacionSocial.setAnio(anio);
 				apropiacionSocial.setAutores(autores);
-				apropiacionSocial.setReferencia(referencia);;
+				apropiacionSocial.setReferencia(referencia);
 				apropiacionSocial.setTipo(tipo);
 				apropiacionSocial.setGrupo(grupo);
 				apropiacionSocial.setRepetido("NO");

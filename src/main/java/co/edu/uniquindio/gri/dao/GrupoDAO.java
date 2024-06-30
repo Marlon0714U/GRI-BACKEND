@@ -28,6 +28,7 @@ public class GrupoDAO {
 	}
 	
 	public Grupo findOne(Long id){
+		//		return grupoRepository.findById(id).get();
 		return grupoRepository.findById(id).orElse(null);
 	}
 	
@@ -36,7 +37,7 @@ public class GrupoDAO {
 		List <ProduccionBGrupo> produccionesB = grupo.getProduccionBibliografica();
 		for (int i = 0; i< produccionesB.size(); i++) {
 			ProduccionBGrupo produccionB = produccionesB.get(i);
-			if(produccionB.debeEliminarse){
+			if(produccionB.debeEliminarse && produccionB.getId()!=0){
 				produccionBGrupoDAO.deleteById(produccionB.getId());
 			}
 		}

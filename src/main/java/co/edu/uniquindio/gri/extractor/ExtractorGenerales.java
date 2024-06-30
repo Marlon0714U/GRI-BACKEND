@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,9 @@ import co.edu.uniquindio.gri.model.Grupo;
 import co.edu.uniquindio.gri.model.Idiomas;
 import co.edu.uniquindio.gri.model.Investigador;
 import co.edu.uniquindio.gri.model.LineasInvestigacion;
+import co.edu.uniquindio.gri.model.ReconocimientosInvestigador;
 import co.edu.uniquindio.gri.utils.ArrayUtils;
+import co.edu.uniquindio.gri.utils.Orcid;
 
 @Service
 public class ExtractorGenerales {
@@ -172,6 +176,13 @@ public class ExtractorGenerales {
 						investigador.setNivelAcademico(elemInfoPersonal.get(i + 1));
 					}
 
+					// Estraccion del sexo
+					if (elemInfoPersonal.get(i).startsWith("SEXO")) {
+
+						investigador.setSexo(elemInfoPersonal.get(i + 1));
+
+					}
+
 					try {
 						if (estado.equals("ACTUAL")) {
 							if (elemInfoPersonal.get(i).equals("UNIVERSIDAD DEL QUINDÍO")
@@ -206,6 +217,28 @@ public class ExtractorGenerales {
 
 		return investigador;
 	}
+
+	/**
+	 * Metodo que extrae el id del investigador de ORCID
+	 *
+	 * @param elem         Lista de elementos que contiene el id del investigador
+	 * @param investigador
+	 */
+	public void extraerIdOrcid(ArrayList<String> elem, Investigador investigador) {
+
+		String regex = "/(\\d{4}-\\d{4}-\\d{4}-\\d{4})";
+
+		Pattern pattern = Pattern.compile(regex);
+		for (String url : elem) {
+			Matcher matcher = pattern.matcher(url);
+			if (matcher.find()) {
+				String orcidNumber = matcher.group(1);
+				investigador.setOrcid(Orcid.getOrcidData(orcidNumber));
+
+			}
+		}
+	}
+
 
 	/**
 	 * Metodo que extrae los idiomas con los que el investigador esta familiarizado
@@ -253,11 +286,59 @@ public class ExtractorGenerales {
 		}
 	}
 
+
+	/**
+	 * Metodo que extrae los Reconocimientos con los que el investigador esta
+	 * familiarizado
+	 *
+	 * @param elem, Lista de elementos que contiene los Reconocimientos del
+	 *              investigador
+	 */
+	public void extraerReconocimientos(ArrayList<String> elem, Investigador investigador) {
+
+		ArrayList<String> auxReconocimientoCadTemp = new ArrayList<String>();
+		ArrayList<ReconocimientosInvestigador> auxReconocimientoTemp = new ArrayList<ReconocimientosInvestigador>();
+
+		for (int i = 1; i < elem.size() - 1; i++) {
+
+			auxReconocimientoCadTemp = utils.organizarReconocimiento(elem.get(i));
+			ReconocimientosInvestigador reconocimiento = new ReconocimientosInvestigador();
+
+			try {
+
+				reconocimiento.setAnio(Integer.parseInt(auxReconocimientoCadTemp.get(0)));
+
+			} catch (Exception e) {
+
+				reconocimiento.setAnio(0);
+
+			}
+			reconocimiento.setEntidad(auxReconocimientoCadTemp.get(1));
+			reconocimiento.setReconocimiento(auxReconocimientoCadTemp.get(2));
+			reconocimiento.setInvestigador(investigador);
+			auxReconocimientoTemp.add(reconocimiento);
+
+		}
+
+		List<ReconocimientosInvestigador> reconocimientosInves = investigador.getReconocimientos();
+
+		if (reconocimientosInves == null) {
+			investigador.setReconocimientos(auxReconocimientoTemp);
+		} else {
+
+			reconocimientosInves.addAll(auxReconocimientoTemp);
+			investigador.setReconocimientos(reconocimientosInves);
+		}
+
+	}
+
+
 	public void extraerLineasInvestigacionI(ArrayList<String> elem, Investigador investigador) {
 
 		ArrayList<LineasInvestigacion> lineas = new ArrayList<>();
 
-		for (int i = 0; i < elem.size(); i++) {
+	//	for (int i = 0; i < elem.size(); i++) {
+		for (int i = 0; i < elem.size() - 2; i++) {
 
 			try {
 				if (elem.size() >= i && elem.get(i).contains(",") && elem.get(i + 2).equals("SI")) {

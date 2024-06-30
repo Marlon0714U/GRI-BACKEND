@@ -193,6 +193,7 @@ public class ExtractorArte {
 
 			if (elem.get(i).contains("NOMBRE DEL EVENTO:")) {
 
+
 				tipo = new Tipo(Constantes.ID_EVENTO_ARTISTICO, Constantes.EVENTO_ARTISTICO, tipoProduccion);
 
 				// Autores
@@ -213,6 +214,8 @@ public class ExtractorArte {
 				produccionArte.setRepetido("NO");
 				utils.identificarRepetidosG(auxProduccionTemp, produccionArte);
 				auxProduccionTemp.add(produccionArte);
+
+				System.out.println("producciongrupo es:"+produccionArte.toString());
 			}
 		}
 

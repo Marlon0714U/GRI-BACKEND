@@ -26,4 +26,8 @@ public class InvestigadorDAO {
 		investigadorRepository.saveAll(investigadores);
 	}
 	
+
+	public void eliminarTodosLosInvesigadores() {
+		investigadorRepository.eliminarTodosLosInvesigadores();
+	}
 }

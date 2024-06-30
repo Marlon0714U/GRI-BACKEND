@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -67,6 +68,7 @@ public class Extractor {
 				}
 			}
 
+			System.out.println("url a extraer datos bibliografia:"+url);
 			extraerDatos(entradas, grupo);
 
 			List<GruposInves> gruposInves = grupo.getInvestigadores();
@@ -151,6 +153,7 @@ public class Extractor {
 		grupo = extractor.extraerDatosGeneralesG(grupo, elemInfoGeneral);
 
 		for (Element elem : entradas) {
+			System.out.println(elem.text());
 			
 			 if (elem.text().startsWith("Líneas de investigación declaradas por el grupo")) {
 			 ArrayList<String> elemLineas = utils.ordenarArreglo(elem.toString());
@@ -190,16 +193,12 @@ public class Extractor {
 			 extractorBibliograficas.extraerCapLibrosG(elemCapLibros, grupo);
 			
 			 } else if (elem.text().startsWith("Documentos de trabajo")) {
-			 ArrayList<String> elemDocumentosTrabajo =
-			 utils.ordenarArreglo(elem.toString());
-			 extractorBibliograficas.extraerDocumentosTrabajoG(elemDocumentosTrabajo,
-			 grupo);
+			 ArrayList<String> elemDocumentosTrabajo = utils.ordenarArreglo(elem.toString());
+			 extractorBibliograficas.extraerDocumentosTrabajoG(elemDocumentosTrabajo, grupo);
 			
 			 } else if (elem.text().startsWith("Otra publicación divulgativa")) {
-			 ArrayList<String> elemOtraProdBibliografica =
-			 utils.ordenarArreglo(elem.toString());
-			 extractorBibliograficas.extraerOtraProdBibliograficaG(elemOtraProdBibliografica,
-			 grupo);
+			 ArrayList<String> elemOtraProdBibliografica = utils.ordenarArreglo(elem.toString());
+			 extractorBibliograficas.extraerOtraProdBibliograficaG(elemOtraProdBibliografica, grupo);
 			
 			 } else if (elem.text().startsWith("Otros artículos publicados")) {
 			 ArrayList<String> elemOtroArticulo = utils.ordenarArreglo(elem.toString());
@@ -405,7 +404,7 @@ public class Extractor {
 			 */
 			
 			 else if (elem.text().startsWith("Curso de Corta Duración Dictados")) {
-			 ArrayList<String> elemCursosCortaDuracion =
+				 ArrayList<String> elemCursosCortaDuracion =
 			 utils.ordenarArreglo(elem.toString());
 			 extractorFormacion.extraerCursosCortosG(elemCursosCortaDuracion, grupo);
 			
@@ -444,35 +443,77 @@ public class Extractor {
 			 extractorInfoAdicional.extraerProyectosG(elemDemasTrabajos, grupo);
 			
 			 }
-			
+
 			 /*
-			 * Extraer Producciones en Arte
-			 */
-			
-			 else if (elem.text().startsWith("Obras o productos")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerObrasG(elemDemasTrabajos, grupo);
-			
-			 } else if (elem.text().startsWith("Registros de acuerdo de licencia")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerRegistrosAcuerdoG(elemDemasTrabajos, grupo);
-			
-			 } else if (elem.text().startsWith("Industrias Creativas y culturales")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerIndustriasG(elemDemasTrabajos, grupo);
-			
-			 } else if (elem.text().startsWith("Eventos artísticos")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerEventoArtisticoG(elemDemasTrabajos, grupo);
-			
-			 } else if (elem.text().startsWith("Talleres Creativos")) {
-			 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(elem.toString());
-			 extractorArte.extraerTallerCreativoG(elemDemasTrabajos, grupo);
-			
+			  * Extraer Producciones en Arte
+			  */
+			 else if (elem.text().startsWith("Producción en arte, arquitectura y diseño")) {
+				 // Parse the HTML content using Jsoup
+				 Document doc = Jsoup.parse(elem.toString());
+				 // Select all the celdaEncabezado elements
+				 Elements celdaEncabezadoElements = doc.select("td.celdaEncabezado");
+
+				 // Iterate over the celdaEncabezado elements
+				 for (Element celdaEncabezadoElement : celdaEncabezadoElements) {
+					 System.out.println("Celda Encabezado to string:\n " + celdaEncabezadoElement.toString());
+					 // Get the parent <tr> element
+					 Element parentTrElement = celdaEncabezadoElement.parent();
+					 System.out.println("Celda Parent to string:\n " + parentTrElement.toString());
+
+					 // Initialize a StringBuilder to hold the combined HTML for the section
+					 StringBuilder sectionHtml = new StringBuilder(parentTrElement.outerHtml());
+
+					 // Get the next sibling elements until we reach another celdaEncabezado or end of the table
+					 Element siblingElement = parentTrElement.nextElementSibling();
+					 while (siblingElement != null && siblingElement.select("td.celdaEncabezado").isEmpty()) {
+						 sectionHtml.append(siblingElement.outerHtml());
+						 siblingElement = siblingElement.nextElementSibling();
+					 }
+
+					 // Convert the combined sectionHtml to a string
+					 String section = sectionHtml.toString();
+
+					 System.out.println("LA SECCION ES:\n" + section+"\n ---------------------FINSECCION-------------------");
+
+					 if (section.contains("Obras o productos")) {
+						 System.out.println("OBRAS O PRODUCTOS ARTE ENCONTRADO");
+						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
+						 System.out.println(elemDemasTrabajos.toString());
+						 extractorArte.extraerObrasG(elemDemasTrabajos, grupo);
+					 } else if (section.contains("Registros de acuerdo de licencia")) {
+						 System.out.println("REGISTROS DE ACUERDO LICENCIA ENCONTRADO");
+						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
+						 System.out.println(elemDemasTrabajos.toString());
+						 extractorArte.extraerRegistrosAcuerdoG(elemDemasTrabajos, grupo);
+					 } else if (section.contains("Industrias creativas y culturales")) {
+						 System.out.println("INDUSTRIAS CREATIVAS CULTURALES ENCONTRADO");
+						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
+						 System.out.println(elemDemasTrabajos.toString());
+						 extractorArte.extraerIndustriasG(elemDemasTrabajos, grupo);
+					 } else if (section.contains("Eventos Artísticos")) {
+						 System.out.println("EVENTOS ARTISTICOS ENCONTRADO");
+						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
+						 System.out.println(elemDemasTrabajos.toString());
+						 extractorArte.extraerEventoArtisticoG(elemDemasTrabajos, grupo);
+					 } else if (section.contains("Talleres de Creación")) {
+						 System.out.println("TALLERES CREATIVOS ENCONTRADO");
+						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
+						 System.out.println(elemDemasTrabajos.toString());
+						 extractorArte.extraerTallerCreativoG(elemDemasTrabajos, grupo);
+					 }
+				 }
 			 }
+
+
+
+
+
+
+
+
 		}
 	}
-	
+
 	public void invesRepetido(Investigador investigador, String estado) {
 		boolean eliminarDatos=false;
 				if (!investigador.getIdiomas().isEmpty()

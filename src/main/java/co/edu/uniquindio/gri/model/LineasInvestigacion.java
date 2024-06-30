@@ -68,4 +68,12 @@ public class LineasInvestigacion implements Serializable {
 		this.investigadores = investigadores;
 	}
 
+	@Override
+	public String toString() {
+		return "LineasInvestigacion [id=" + id + ", nombre=" + nombre + ", investigadores=" + investigadores
+				+ ", grupos=" + grupos + "]";
+	}
+
+
+
 }

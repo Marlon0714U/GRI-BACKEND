@@ -104,4 +104,12 @@ public class Idiomas implements Serializable {
 		this.investigador = investigador;
 	}
 
+	@Override
+	public String toString() {
+		return "Idiomas [id=" + id + ", idioma=" + idioma + ", habla=" + habla + ", escribe=" + escribe + ", lee=" + lee
+				+ ", entiende=" + entiende + ", investigador=" + investigador + "]";
+	}
+
+
+
 }

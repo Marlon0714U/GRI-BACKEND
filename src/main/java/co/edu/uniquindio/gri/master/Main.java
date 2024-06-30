@@ -86,9 +86,8 @@ public class Main implements CommandLineRunner {
 			}
 		}
 
-
-
-		return grupos;
+		//return grupos;
+		return null;
 	}
 
 	public List<Grupo> leerDataSet() {
@@ -99,9 +98,7 @@ public class Main implements CommandLineRunner {
 	}
 
 	public Grupo leerDataSetPruebas(Long id) {
-		Grupo grupo = grupoDAO.findOne(id);
-		entityManager.refresh(grupo); // Recarga la entidad desde la base de datos
-		return grupo;
+		return grupoDAO.findOne(id);
 	}
 
 	public List<String> llenarUrlSet(List<Grupo> grupos) {
