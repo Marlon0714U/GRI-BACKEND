@@ -3,6 +3,8 @@ package co.edu.uniquindio.gri.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import co.edu.uniquindio.gri.model.Grupo;
@@ -26,7 +28,7 @@ public class GrupoDAO {
 	public List<Grupo> findAll(){
 		return grupoRepository.findAll();
 	}
-	
+
 	public Grupo findOne(Long id){
 		//		return grupoRepository.findById(id).get();
 		return grupoRepository.findById(id).orElse(null);

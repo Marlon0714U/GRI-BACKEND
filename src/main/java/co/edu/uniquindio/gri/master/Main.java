@@ -1,6 +1,7 @@
 package co.edu.uniquindio.gri.master;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -86,8 +87,7 @@ public class Main implements CommandLineRunner {
 			}
 		}
 
-		//return grupos;
-		return null;
+		return grupos;
 	}
 
 	public List<Grupo> leerDataSet() {
@@ -98,7 +98,9 @@ public class Main implements CommandLineRunner {
 	}
 
 	public Grupo leerDataSetPruebas(Long id) {
-		return grupoDAO.findOne(id);
+		Grupo grupo = grupoDAO.findOne(id);
+		entityManager.refresh(grupo); // Recarga la entidad desde la base de datos
+		return grupo;
 	}
 
 	public List<String> llenarUrlSet(List<Grupo> grupos) {
@@ -112,6 +114,9 @@ public class Main implements CommandLineRunner {
 			//System.out.println(i);
 			urlSet.add(url);
 		}
+		/*
+		List<String> grupoP = Arrays.asList("https://scienti.minciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=00000000013154");
+		urlSet.add(grupoP.get(0));*/
 		for(String url : urlSet){
 		//	System.out.println(url);
 		}

@@ -68,7 +68,6 @@ public class Extractor {
 				}
 			}
 
-			System.out.println("url a extraer datos bibliografia:"+url);
 			extraerDatos(entradas, grupo);
 
 			List<GruposInves> gruposInves = grupo.getInvestigadores();
@@ -153,7 +152,6 @@ public class Extractor {
 		grupo = extractor.extraerDatosGeneralesG(grupo, elemInfoGeneral);
 
 		for (Element elem : entradas) {
-			System.out.println(elem.text());
 			
 			 if (elem.text().startsWith("Líneas de investigación declaradas por el grupo")) {
 			 ArrayList<String> elemLineas = utils.ordenarArreglo(elem.toString());
@@ -404,7 +402,7 @@ public class Extractor {
 			 */
 			
 			 else if (elem.text().startsWith("Curso de Corta Duración Dictados")) {
-				 ArrayList<String> elemCursosCortaDuracion =
+			 ArrayList<String> elemCursosCortaDuracion =
 			 utils.ordenarArreglo(elem.toString());
 			 extractorFormacion.extraerCursosCortosG(elemCursosCortaDuracion, grupo);
 			
@@ -443,7 +441,7 @@ public class Extractor {
 			 extractorInfoAdicional.extraerProyectosG(elemDemasTrabajos, grupo);
 			
 			 }
-
+			
 			 /*
 			  * Extraer Producciones en Arte
 			  */
@@ -513,7 +511,7 @@ public class Extractor {
 
 		}
 	}
-
+	
 	public void invesRepetido(Investigador investigador, String estado) {
 		boolean eliminarDatos=false;
 				if (!investigador.getIdiomas().isEmpty()

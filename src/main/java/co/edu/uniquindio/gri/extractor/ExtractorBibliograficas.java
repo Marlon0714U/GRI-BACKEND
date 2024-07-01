@@ -387,7 +387,6 @@ public class ExtractorBibliograficas {
 				produccionBibliografica.setRepetido("NO");
 				utils.identificarRepetidosBibliograficosG(prodBibliograficaTemp, produccionBibliografica);
 				prodBibliograficaTemp.add(produccionBibliografica);
-
 			}
 		}
 
@@ -632,6 +631,7 @@ public class ExtractorBibliograficas {
 					tipo = new Tipo(Constantes.ID_OTRO_ARTICULO, Constantes.OTRO_ARTICULO, tipoProduccion);
 
 				}
+
 				// Autores
 				String general = elem.get(i + 1);
 				int inicio = general.indexOf("\"");
@@ -699,8 +699,11 @@ public class ExtractorBibliograficas {
 			if (elem.get(i).contains("PRODUCCIÓN BIBLIOGRÁFICA")) {
 				ProduccionB produccionBibliografica = new ProduccionB();
 				if (elem.get(i).contains("LIBRO RESULTADO DE INVESTIGACIÓN")) {
+
 					tipo = new Tipo(Constantes.ID_LIBRO, Constantes.LIBRO, tipoProduccion);
+
 				} else {
+
 					tipo = new Tipo(Constantes.ID_OTRO_LIBRO, Constantes.OTRO_LIBRO, tipoProduccion);
 				}
 				if (elem.get(i).contains("LIBROS DE DIVULGACIÓN Y/O COMPILACIÓN DE DIVULGACIÓN")) {
