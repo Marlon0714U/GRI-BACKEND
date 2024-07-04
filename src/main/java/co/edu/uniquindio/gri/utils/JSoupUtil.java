@@ -14,7 +14,7 @@ public class JSoupUtil {
 	 * recibo al hacer la petición Codigos: 200 OK 300 Multiple Choices 301 Moved
 	 * Permanently 305 Use Proxy 400 Bad Request 403 Forbidden 404 Not Found 500
 	 * Internal Server Error 502 Bad Gateway 503 Service Unavailable
-	 * 
+	 *
 	 * @param url,
 	 *            el enlace de la página web a analizar.
 	 * @return Status Code, el código que identifica el estado de la página.
@@ -37,7 +37,7 @@ public class JSoupUtil {
 	/**
 	 * Método que retorna un objeto de la clase Document con el contenido del HTML
 	 * de la web para poder ser parseado posteriormente con JSoup
-	 * 
+	 *
 	 * @param url,
 	 *            el enlace de la página web a analizar.
 	 * @return Documento con el HTML de la página en cuestión.

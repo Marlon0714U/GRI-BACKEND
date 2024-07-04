@@ -243,8 +243,7 @@ public class ExtractorGenerales {
 	/**
 	 * Metodo que extrae los idiomas con los que el investigador esta familiarizado
 	 * 
-	 * @param elem,
-	 *            Lista de elementos que contiene los idiomas del investigador
+	 * @param elem, Lista de elementos que contiene los idiomas del investigador
 	 */
 	public void extraerIdiomas(ArrayList<String> elem, Investigador investigador) {
 

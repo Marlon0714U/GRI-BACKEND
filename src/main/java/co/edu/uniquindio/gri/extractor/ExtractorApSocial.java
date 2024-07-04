@@ -213,10 +213,10 @@ public class ExtractorApSocial {
 		Tipo tipo = new Tipo();
 
 		ArrayList<ProduccionGrupo> actAprSocialAux = new ArrayList<>();
-		
-		ArrayList<ProduccionGrupo> contenidoImpreso = new ArrayList<>();		
-		ArrayList<ProduccionGrupo> contenidoMultimedia = new ArrayList<>();		
-		ArrayList<ProduccionGrupo> contenidoVirtual = new ArrayList<>();	
+
+		ArrayList<ProduccionGrupo> contenidoImpreso = new ArrayList<>();
+		ArrayList<ProduccionGrupo> contenidoMultimedia = new ArrayList<>();
+		ArrayList<ProduccionGrupo> contenidoVirtual = new ArrayList<>();
 
 		for (int i = 0; i < elem.size(); i++) {
 

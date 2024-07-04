@@ -181,8 +181,7 @@ public class ExtractorBibliograficas {
 	 * Metodo que extrae los capitulos de libro que publico el grupo de
 	 * investigacion
 	 * 
-	 * @param elem,
-	 *            Lista de elementos que contiene los capitulos de libro
+	 * @param elem, Lista de elementos que contiene los capitulos de libro
 	 * @return Lista de Producciones bibliograficas
 	 */
 	public void extraerCapLibrosG(ArrayList<String> elem, Grupo grupo) {

@@ -30,8 +30,8 @@ public class GrupoDAO {
 	}
 
 	public Grupo findOne(Long id){
-		//		return grupoRepository.findById(id).get();
-		return grupoRepository.findById(id).orElse(null);
+		//return grupoRepository.findOne(id);
+		return grupoRepository.findById(id).get();
 	}
 	
 	public void save (Grupo grupo){

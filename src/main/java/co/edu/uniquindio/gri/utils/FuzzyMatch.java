@@ -101,7 +101,7 @@ public class FuzzyMatch {
 	public int calculateLevensteinDistance(String s1, String s2) {
 		int distance = StringUtils.getLevenshteinDistance(s1, s2);
 		double ratio = ((double) distance) / (Math.max(s1.length(), s2.length()));
-		return 100 - new Double(ratio*100).intValue();		
+		return 100 - Double.valueOf(ratio*100).intValue();
 	}
 	
 	public String escapeString(String token) {
