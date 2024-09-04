@@ -446,57 +446,33 @@ public class Extractor {
 			  * Extraer Producciones en Arte
 			  */
 			 else if (elem.text().startsWith("Producción en arte, arquitectura y diseño")) {
-				 // Parse the HTML content using Jsoup
 				 Document doc = Jsoup.parse(elem.toString());
-				 // Select all the celdaEncabezado elements
 				 Elements celdaEncabezadoElements = doc.select("td.celdaEncabezado");
 
-				 // Iterate over the celdaEncabezado elements
 				 for (Element celdaEncabezadoElement : celdaEncabezadoElements) {
-					 System.out.println("Celda Encabezado to string:\n " + celdaEncabezadoElement.toString());
-					 // Get the parent <tr> element
 					 Element parentTrElement = celdaEncabezadoElement.parent();
-					 System.out.println("Celda Parent to string:\n " + parentTrElement.toString());
-
-					 // Initialize a StringBuilder to hold the combined HTML for the section
 					 StringBuilder sectionHtml = new StringBuilder(parentTrElement.outerHtml());
 
-					 // Get the next sibling elements until we reach another celdaEncabezado or end of the table
 					 Element siblingElement = parentTrElement.nextElementSibling();
 					 while (siblingElement != null && siblingElement.select("td.celdaEncabezado").isEmpty()) {
 						 sectionHtml.append(siblingElement.outerHtml());
 						 siblingElement = siblingElement.nextElementSibling();
 					 }
-
-					 // Convert the combined sectionHtml to a string
 					 String section = sectionHtml.toString();
-
-					 System.out.println("LA SECCION ES:\n" + section+"\n ---------------------FINSECCION-------------------");
-
 					 if (section.contains("Obras o productos")) {
-						 System.out.println("OBRAS O PRODUCTOS ARTE ENCONTRADO");
 						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
-						 System.out.println(elemDemasTrabajos.toString());
 						 extractorArte.extraerObrasG(elemDemasTrabajos, grupo);
 					 } else if (section.contains("Registros de acuerdo de licencia")) {
-						 System.out.println("REGISTROS DE ACUERDO LICENCIA ENCONTRADO");
 						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
-						 System.out.println(elemDemasTrabajos.toString());
 						 extractorArte.extraerRegistrosAcuerdoG(elemDemasTrabajos, grupo);
 					 } else if (section.contains("Industrias creativas y culturales")) {
-						 System.out.println("INDUSTRIAS CREATIVAS CULTURALES ENCONTRADO");
 						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
-						 System.out.println(elemDemasTrabajos.toString());
 						 extractorArte.extraerIndustriasG(elemDemasTrabajos, grupo);
 					 } else if (section.contains("Eventos Artísticos")) {
-						 System.out.println("EVENTOS ARTISTICOS ENCONTRADO");
 						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
-						 System.out.println(elemDemasTrabajos.toString());
 						 extractorArte.extraerEventoArtisticoG(elemDemasTrabajos, grupo);
 					 } else if (section.contains("Talleres de Creación")) {
-						 System.out.println("TALLERES CREATIVOS ENCONTRADO");
 						 ArrayList<String> elemDemasTrabajos = utils.ordenarArreglo(section);
-						 System.out.println(elemDemasTrabajos.toString());
 						 extractorArte.extraerTallerCreativoG(elemDemasTrabajos, grupo);
 					 }
 				 }

@@ -220,7 +220,6 @@ public class ExtractorBibliograficas {
 			}
 
 			if (elem.get(i).contains("ISBN")) {
-				System.out.println("THERE IS AN ISBN para:"+elem.get(i));
 				char[] aux = elem.get(i).toCharArray();
 				for (int j = 0; j < aux.length; j++) {
 					if (aux[j] == 'I' && aux[j + 1] == 'S' && aux[j + 2] == 'B') {

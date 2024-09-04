@@ -54,6 +54,8 @@ public class ExtractorInfoAdicional {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else {
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
@@ -100,6 +102,12 @@ public class ExtractorInfoAdicional {
 				while (cont < elem.size() && !elem.get(cont).contains(".-")) {
 					String actual = elem.get(cont);
 					referencia += " " + actual;
+
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
 
 					cont++;
 				}
@@ -183,7 +191,7 @@ public class ExtractorInfoAdicional {
 	}
 
 	public void extraerProyectosI(ArrayList<String> elem, Investigador investigador) {
-
+		String autores = "";
 		String referencia = "";
 		String anio = "";
 
@@ -202,6 +210,12 @@ public class ExtractorInfoAdicional {
 					String actual = elem.get(cont);
 					referencia += " " + actual;
 
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
+
 					cont++;
 				}
 				referencia = referencia.trim();
@@ -214,6 +228,7 @@ public class ExtractorInfoAdicional {
 				produccion.setReferencia(referencia);
 				Tipo tipo = new Tipo(Constantes.ID_PROYECTO, Constantes.PROYECTO, tipoProduccion);
 				produccion.setTipo(tipo);
+				produccion.setAutores(autores);
 				produccion.setAnio(anio);
 				produccion.setInvestigador(investigador);
 				produccion.setRepetido("NO");

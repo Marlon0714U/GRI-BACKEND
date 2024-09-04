@@ -223,6 +223,7 @@ public class ArrayUtils {
 	 * @return Cadena con el nombre de los autores
 	 */
 	public String verificarAutores(String autores, Investigador investigador) {
+
 		String autoresFinal = "";
 		String[] aux = autores.split(",");
 		for (int j = 0; j < aux.length; j++) {
@@ -233,8 +234,10 @@ public class ArrayUtils {
 		}
 		if (autoresFinal.equals("")) {
 			autoresFinal = investigador.getNombreInvestigadorAux();
+
 		} else {
 			autoresFinal = autoresFinal.substring(2);
+
 		}
 		return autoresFinal;
 	}

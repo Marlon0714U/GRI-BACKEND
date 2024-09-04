@@ -48,6 +48,8 @@ public class ExtractorTecnicas {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
@@ -101,6 +103,8 @@ public class ExtractorTecnicas {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}

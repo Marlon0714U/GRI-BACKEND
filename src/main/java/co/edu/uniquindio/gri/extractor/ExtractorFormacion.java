@@ -48,6 +48,8 @@ public class ExtractorFormacion {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
@@ -81,6 +83,10 @@ public class ExtractorFormacion {
 		String referencia = "";
 		String anio = "";
 
+
+		// Initialize the counter
+		int noAuthorCount = 0;
+
 		TipoProduccion tipoProduccion = new TipoProduccion(Constantes.ID_FORMACION, Constantes.FORMACION);
 
 		Tipo tipo = new Tipo();
@@ -113,8 +119,9 @@ public class ExtractorFormacion {
 					tipo = new Tipo(Constantes.ID_TRABAJO_GRADO_D, Constantes.TRABAJO_GRADO_D, tipoProduccion);
 
 				} else {
-
 					tipo = new Tipo(Constantes.ID_TUTORIA, Constantes.TUTORIA, tipoProduccion);
+
+
 
 				}
 				int cont = i + 2;
@@ -123,12 +130,18 @@ public class ExtractorFormacion {
 					String actual = elem.get(cont);
 					referencia += ", " + actual;
 
-					if (actual.contains("AUTORES:")) {
+					/*if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}*/
+					if (actual.contains("AUTORES:") || actual.contains("TUTOR(ES):") || actual.contains("COTUTOR(ES):") || actual.contains("ASESOR(ES):")) {
+						int startIndex = actual.indexOf(":") + 1;
+						autores = actual.substring(startIndex).trim();
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
-				referencia = referencia.substring(4, referencia.length() - 1);
+				referencia = referencia.substring(4, referencia.length());
 				anio = utils.extraerAnio(referencia);
 
 				actividadesFormacion.setAnio(anio);
@@ -168,7 +181,7 @@ public class ExtractorFormacion {
 		List<ProduccionGrupo> produccion = utils.verificarProducciones(Constantes.ID_TUTORIA,
 				grupo.getProduccion(), otros);
 		grupo.setProduccion(produccion);
-	
+
 	}
 	
 	/*
@@ -245,6 +258,7 @@ public class ExtractorFormacion {
 
 		for (int i = 0; i < elem.size(); i++) {
 			if (elem.get(i).contains("TRABAJOS DIRIGIDOS/TUTORÍAS - ")) {
+
 				Produccion actividadesFormacion = new Produccion();
 
 				if (elem.get(i).contains("TRABAJOS DE GRADO DE PREGRADO")) {

@@ -59,8 +59,10 @@ public class ExtractorApSocial {
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
 						logger.debug("Extracted authors: {}", autores);
-
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
+
 					cont++;
 				}
 				referencia = referencia.substring(3, referencia.length() - 1);
@@ -83,7 +85,7 @@ public class ExtractorApSocial {
 		List<ProduccionGrupo> produccion = utils.verificarProducciones(Constantes.ID_EDICION,
 				grupo.getProduccion(), actAprSocialAux);
 		grupo.setProduccion(produccion);
-		logger.debug("Updated group's production: {}", grupo.getProduccion());
+	//	logger.debug("Updated group's production: {}", grupo.getProduccion());
 
 	}
 
@@ -114,6 +116,8 @@ public class ExtractorApSocial {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
@@ -176,6 +180,8 @@ public class ExtractorApSocial {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
@@ -244,6 +250,8 @@ public class ExtractorApSocial {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
@@ -302,6 +310,8 @@ public class ExtractorApSocial {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
@@ -338,8 +348,7 @@ public class ExtractorApSocial {
 
 		TipoProduccion tipoProduccion = new TipoProduccion(Constantes.ID_APROPIACION, Constantes.APROPIACION);
  
-		ArrayList<ProduccionGrupo> actAprSocialAux = new ArrayList<>();
-		
+		//ArrayList<ProduccionGrupo> actAprSocialAux = new ArrayList<>();
 		ArrayList<ProduccionGrupo> estrategiaPedagogica = new ArrayList<>();
 		ArrayList<ProduccionGrupo> participacionCTI = new ArrayList<>();
 		
@@ -349,12 +358,8 @@ public class ExtractorApSocial {
 			ProduccionGrupo apropiacionSocial = new ProduccionGrupo();
 			
 			if (elem.get(i).contains("ESTRATEGIAS PEDAGÓGICAS PARA EL FOMENTO A LA CTI")) {
-
-				tipo = new Tipo(Constantes.ID_ESTRATEGIA_PEDAGOGICA, Constantes.ESTRATEGIA_PEDAGOGICA,
-						tipoProduccion);
-
+				tipo = new Tipo(Constantes.ID_ESTRATEGIA_PEDAGOGICA, Constantes.ESTRATEGIA_PEDAGOGICA, tipoProduccion);
 			} else if (elem.get(i).contains("PARTICIPACIÓN CIUDADANA EN PROYECTOS DE CTI")){
-
 				tipo = new Tipo(Constantes.ID_ESPACIO_PARTICIPACION_CTI, Constantes.ESPACIO_PARTICIPACION_CTI, tipoProduccion);
 
 			}
@@ -369,6 +374,8 @@ public class ExtractorApSocial {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}
@@ -381,17 +388,28 @@ public class ExtractorApSocial {
 				apropiacionSocial.setTipo(tipo);
 				apropiacionSocial.setGrupo(grupo);
 				apropiacionSocial.setRepetido("NO");
-				utils.identificarRepetidosG(actAprSocialAux, apropiacionSocial);
-				actAprSocialAux.add(apropiacionSocial);
+
+				//se agregan las producciones de acuerdo al tipo
+				if (tipo.getId() == Constantes.ID_ESTRATEGIA_PEDAGOGICA) {
+					utils.identificarRepetidosG( estrategiaPedagogica, apropiacionSocial);
+					estrategiaPedagogica.add(apropiacionSocial);
+				} else if (tipo.getId() == Constantes.ID_ESPACIO_PARTICIPACION_CTI) {
+					utils.identificarRepetidosG(  participacionCTI, apropiacionSocial);
+					participacionCTI.add(apropiacionSocial);
+				}
+
 			}
+
 		}
 
 		List<ProduccionGrupo> produccionP = utils.verificarProducciones(Constantes.ID_ESTRATEGIA_PEDAGOGICA,
 				grupo.getProduccion(), estrategiaPedagogica);
+
 		grupo.setProduccion(produccionP);
 		
 		List<ProduccionGrupo> produccionCTI = utils.verificarProducciones(Constantes.ID_ESPACIO_PARTICIPACION_CTI,
 				grupo.getProduccion(), participacionCTI);
+
 		grupo.setProduccion(produccionCTI);
 	}
 
@@ -422,11 +440,12 @@ public class ExtractorApSocial {
 						&& !elem.get(cont).contains("TIPO DE VINCULACIÓN")) {
 
 					String actual = elem.get(cont);
-				//	System.out.println("extrayendo evento actual: " + actual);
 					referencia += " " + actual;
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}

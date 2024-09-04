@@ -2,6 +2,7 @@ package co.edu.uniquindio.gri.dao;
 
 import java.util.List;
 
+import co.edu.uniquindio.gri.model.ReconocimientosInvestigador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

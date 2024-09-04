@@ -124,6 +124,8 @@ public class ExtractorEvaluacion {
 
 					if (actual.contains("AUTORES:")) {
 						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
 					}
 					cont++;
 				}

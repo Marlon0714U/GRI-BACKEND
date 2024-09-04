@@ -13,9 +13,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.ToString;
 
 @Entity(name = "TIPOS")
 @Table(name = "TIPOS", schema = "gri")
+@ToString(exclude = { "produccion", "produccionBibliografica", "produccionG", "produccionBibliograficaG" })
 public class Tipo implements Serializable {
 
 	private static final long serialVersionUID = 1L;

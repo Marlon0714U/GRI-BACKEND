@@ -29,6 +29,7 @@ public class ExtractorArte {
 	public void extraerObrasG(ArrayList<String> elem, Grupo grupo) {
 		String referencia = "";
 		String anio = "";
+		String autores = "";
 
 		TipoProduccion tipoProduccion = new TipoProduccion(Constantes.ID_ARTE, Constantes.ARTE);
 
@@ -51,6 +52,12 @@ public class ExtractorArte {
 						&& !elem.get(cont).contains("INSTANCIAS DE VALORACIÓN DE LA OBRA")) {
 					String actual = elem.get(cont);
 					referencia = referencia + " " + actual;
+
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
 					
 					cont++;
 				}
@@ -60,6 +67,7 @@ public class ExtractorArte {
 				produccionArte.setAnio(anio);
 				produccionArte.setReferencia(referencia);
 				produccionArte.setTipo(tipo);
+				produccionArte.setAutores(autores);
 				produccionArte.setGrupo(grupo);
 				produccionArte.setRepetido("NO");
 				utils.identificarRepetidosG(auxProduccionTemp, produccionArte);
@@ -180,6 +188,7 @@ public class ExtractorArte {
 	public void extraerEventoArtisticoG(ArrayList<String> elem, Grupo grupo) {
 		String referencia = "";
 		String anio = "";
+		String autores = "";
 
 		TipoProduccion tipoProduccion = new TipoProduccion(Constantes.ID_ARTE, Constantes.ARTE);
 
@@ -202,6 +211,13 @@ public class ExtractorArte {
 				while (cont < elem.size() && !elem.get(cont).contains("NOMBRE DEL EVENTO:")) {
 					String actual = elem.get(cont);
 					referencia = referencia + " " + actual;
+
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
+
 					cont++;
 				}
 				referencia = referencia.trim();
@@ -210,12 +226,12 @@ public class ExtractorArte {
 				produccionArte.setAnio(anio);
 				produccionArte.setReferencia(referencia);
 				produccionArte.setTipo(tipo);
+				produccionArte.setAutores(autores);
 				produccionArte.setGrupo(grupo);
 				produccionArte.setRepetido("NO");
 				utils.identificarRepetidosG(auxProduccionTemp, produccionArte);
 				auxProduccionTemp.add(produccionArte);
 
-				System.out.println("producciongrupo es:"+produccionArte.toString());
 			}
 		}
 
@@ -232,6 +248,7 @@ public class ExtractorArte {
 	public void extraerTallerCreativoG(ArrayList<String> elem, Grupo grupo) {
 		String referencia = "";
 		String anio = "";
+		String autores = "";
 
 		TipoProduccion tipoProduccion = new TipoProduccion(Constantes.ID_ARTE, Constantes.ARTE);
 
@@ -254,7 +271,12 @@ public class ExtractorArte {
 				while (cont < elem.size() && !elem.get(cont).contains("NOMBRE DEL TALLER:")) {
 					String actual = elem.get(cont);
 					referencia = referencia + " " + actual;
-					
+
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
 					cont++;
 				}
 				referencia = referencia.trim();
@@ -263,6 +285,7 @@ public class ExtractorArte {
 				produccionArte.setAnio(anio);
 				produccionArte.setReferencia(referencia);
 				produccionArte.setTipo(tipo);
+				produccionArte.setAutores(autores);
 				produccionArte.setGrupo(grupo);
 				produccionArte.setRepetido("NO");
 				utils.identificarRepetidosG(auxProduccionTemp, produccionArte);
@@ -280,7 +303,7 @@ public class ExtractorArte {
 	 */
 	
 	public void extraerObrasI(ArrayList<String> elem, Investigador investigador) {
-
+		String autores = "";
 		String referencia = "";
 		String anio = "";
 
@@ -299,6 +322,11 @@ public class ExtractorArte {
 						&& !elem.get(cont).contains("INSTANCIAS DE VALORACIÓN DE LA OBRA")) {
 					String actual = elem.get(cont);
 					referencia = referencia + " " + actual;
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
 					cont++;
 				}
 				referencia = referencia.trim();
@@ -306,6 +334,7 @@ public class ExtractorArte {
 				produccion.setReferencia(referencia);
 				Tipo tipo = new Tipo(Constantes.ID_OBRA, Constantes.OBRA, tipoProduccion);
 				produccion.setTipo(tipo);
+				produccion.setAutores(autores);
 				produccion.setAnio(anio);
 				produccion.setInvestigador(investigador);
 				produccion.setRepetido("NO");
@@ -326,6 +355,7 @@ public class ExtractorArte {
 
 		String referencia = "";
 		String anio = "";
+		String autores = "";
 
 		TipoProduccion tipoProduccion = new TipoProduccion(Constantes.ID_ARTE, Constantes.ARTE);
 
@@ -341,6 +371,12 @@ public class ExtractorArte {
 				while (cont < elem.size() && !elem.get(cont).contains("NOMBRE DEL PRODUCTO:")) {
 					String actual = elem.get(cont);
 					referencia = referencia + " " + actual;
+
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
 					cont++;
 				}
 				referencia = referencia.trim();
@@ -348,6 +384,7 @@ public class ExtractorArte {
 				produccion.setReferencia(referencia);
 				Tipo tipo = new Tipo(Constantes.ID_ACUERDO_LICENCIA, Constantes.ACUERDO_LICENCIA, tipoProduccion);
 				produccion.setTipo(tipo);
+				produccion.setAutores(autores);
 				produccion.setAnio(anio);
 				produccion.setInvestigador(investigador);
 				produccion.setRepetido("NO");
@@ -365,7 +402,7 @@ public class ExtractorArte {
 	}
 
 	public void extraerIndustriasI(ArrayList<String> elem, Investigador investigador) {
-
+		String autores = "";
 		String referencia = "";
 		String anio = "";
 
@@ -383,6 +420,12 @@ public class ExtractorArte {
 				while (cont < elem.size() && !elem.get(cont).contains("NOMBRE DE LA EMPRESA CREATIVA:")) {
 					String actual = elem.get(cont);
 					referencia = referencia + " " + actual;
+
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
 					
 					cont++;
 				}
@@ -391,6 +434,7 @@ public class ExtractorArte {
 				produccion.setReferencia(referencia);
 				Tipo tipo = new Tipo(Constantes.ID_INDUSTRIA_CREATIVA, Constantes.INDUSTRIA_CREATIVA, tipoProduccion);
 				produccion.setTipo(tipo);
+				produccion.setAutores(autores);
 				produccion.setAnio(anio);
 				produccion.setInvestigador(investigador);
 				produccion.setRepetido("NO");
@@ -408,7 +452,7 @@ public class ExtractorArte {
 	}
 
 	public void extraerEventoArtisticoI(ArrayList<String> elem, Investigador investigador) {
-
+		String autores = "";
 		String referencia = "";
 		String anio = "";
 
@@ -426,6 +470,11 @@ public class ExtractorArte {
 				while (cont < elem.size() && !elem.get(cont).contains("NOMBRE DEL EVENTO:")) {
 					String actual = elem.get(cont);
 					referencia = referencia + " " + actual;
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
 					
 					cont++;
 				}
@@ -434,6 +483,7 @@ public class ExtractorArte {
 				produccion.setReferencia(referencia);
 				Tipo tipo = new Tipo(Constantes.ID_EVENTO_ARTISTICO, Constantes.EVENTO_ARTISTICO, tipoProduccion);
 				produccion.setTipo(tipo);
+				produccion.setAutores(autores);
 				produccion.setAnio(anio);
 				produccion.setInvestigador(investigador);
 				produccion.setRepetido("NO");
@@ -451,7 +501,7 @@ public class ExtractorArte {
 	}
 
 	public void extraerTallerCreativoI(ArrayList<String> elem, Investigador investigador) {
-
+		String autores = "";
 		String referencia = "";
 		String anio = "";
 
@@ -470,6 +520,12 @@ public class ExtractorArte {
 				while (cont < elem.size() && !elem.get(cont).contains("NOMBRE DEL TALLER:")) {
 					String actual = elem.get(cont);
 					referencia = referencia + " " + actual;
+
+					if (actual.contains("AUTORES:")) {
+						autores = actual.substring(9, actual.length() - 1);
+					}else{
+						autores = "NO ESPECIFICADO";
+					}
 					
 					cont++;
 				}
@@ -478,6 +534,7 @@ public class ExtractorArte {
 				produccion.setReferencia(referencia);
 				Tipo tipo = new Tipo(Constantes.ID_TALLER_CREATIVO, Constantes.TALLER_CREATIVO, tipoProduccion);
 				produccion.setTipo(tipo);
+				produccion.setAutores(autores);
 				produccion.setAnio(anio);
 				produccion.setInvestigador(investigador);
 				produccion.setRepetido("NO");

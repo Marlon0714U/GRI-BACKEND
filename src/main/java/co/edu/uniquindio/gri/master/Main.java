@@ -111,14 +111,12 @@ public class Main implements CommandLineRunner {
 			String cadena = "00000000000000" + grupos.get(i).getId();
 			cadena = cadena.substring(cadena.length() - Constantes.LINK_GRUPLAC, cadena.length());
 			String url = "https://scienti.minciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=" + cadena;
-			//System.out.println(i);
 			urlSet.add(url);
 		}
 		/*
 		List<String> grupoP = Arrays.asList("https://scienti.minciencias.gov.co/gruplac/jsp/visualiza/visualizagr.jsp?nro=00000000013154");
 		urlSet.add(grupoP.get(0));*/
 		for(String url : urlSet){
-		//	System.out.println(url);
 		}
 		return urlSet;
 	}
